@@ -1,6 +1,6 @@
 // src/components/PodcastModal.jsx
 import React from 'react';
-import { formatDate } from '../utils/utils';
+import { formatDate, getGenreTitles } from '../utils/utils';
 
 const PodcastModal = ({ podcast, onClose, onViewMore }) => {
   if (!podcast) return null;
@@ -21,7 +21,7 @@ const PodcastModal = ({ podcast, onClose, onViewMore }) => {
           <div className="modalContent-details">
             <div id="modalGenres" className="genres">
               {podcast.genres && podcast.genres.length > 0 
-                ? podcast.genres.join(", ") 
+                ? getGenreTitles(podcast.genres).join(", ") 
                 : "No genres available"}
             </div>
 
@@ -30,8 +30,8 @@ const PodcastModal = ({ podcast, onClose, onViewMore }) => {
             </p>
 
             <div id="modalSeasons" className="seasons">
-              {podcast.seasons && podcast.seasons.length > 0 
-                ? `${podcast.seasons.length} season(s)` 
+              {podcast.seasons > 0 
+                ? `${podcast.seasons} season` 
                 : "No seasons available"}
             </div>
 

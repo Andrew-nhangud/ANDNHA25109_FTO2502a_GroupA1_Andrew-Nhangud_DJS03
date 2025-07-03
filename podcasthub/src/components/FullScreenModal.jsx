@@ -1,6 +1,6 @@
 // src/components/FullScreenModal.jsx
 import React from 'react';
-import { formatDate } from '../utils/utils';
+import { formatDate, getGenreTitles } from '../utils/utils';
 
 const FullScreenModal = ({ podcast, isOpen, onClose }) => {
   if (!isOpen || !podcast) return null;
@@ -24,15 +24,15 @@ const FullScreenModal = ({ podcast, isOpen, onClose }) => {
             <h2 id="fullScreenModalTitle">{podcast.title}</h2>
             <div id="fullScreenModalGenres" className="genres">
               {podcast.genres && podcast.genres.length > 0 
-                ? podcast.genres.join(", ") 
+                ? getGenreTitles(podcast.genres).join(", ") 
                 : "No genres available"}
             </div>
             <p id="fullScreenModalLastUpdated">
               Last updated: <span>{formatDate(podcast.updated)}</span>
             </p>
             <div id="fullScreenModalSeasons" className="seasons">
-              {podcast.seasons && podcast.seasons.length > 0 
-                ? `${podcast.seasons.length} season(s)` 
+              {podcast.seasons > 0 
+                ? `${podcast.seasons} season` 
                 : "No seasons available"}
             </div>
             <p id="fullScreenModalDescription">{podcast.description}</p>
