@@ -1,9 +1,19 @@
-// src/components/FullScreenModal.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { formatDate, getGenreTitles } from '../utils/utils';
+import { seasons } from '../data/data'; // Import the seasons data
 
 const FullScreenModal = ({ podcast, isOpen, onClose }) => {
+  const [selectedSeasonIndex, setSelectedSeasonIndex] = useState(null);
+
   if (!isOpen || !podcast) return null;
+
+  // Find the seasons for the current podcast
+  const podcastSeasons = seasons.find(season => season.id === podcast.id)?.seasonDetails || [];
+
+  const handleSeasonClick = (index) => {
+    // Toggle the selected season index
+    setSelectedSeasonIndex(selectedSeasonIndex === index ? null : index);
+  };
 
   return (
     <div className={`full-screen-modal ${isOpen ? 'show' : ''}`}>
@@ -42,7 +52,23 @@ const FullScreenModal = ({ podcast, isOpen, onClose }) => {
         <div className="seasons-episodes-section">
           <h3>Seasons and Episodes</h3>
           <div id="seasonsContainer" className="seasons-list">
-            {/* Render seasons + episodes content dynamically here */}
+            {podcastSeasons.map((season, index) => (
+              <div key={index} className="season-item">
+                <div className="season-header" onClick={() => handleSeasonClick(index)}>
+                  <span className="season-title">{season.title}</span>
+                  <span className="season-header-episodes">{season.episodes} Episodes</span>
+                </div>
+                {selectedSeasonIndex === index && (
+                  <div className="season-episodes">
+                    {Array.from({ length: season.episodes }, (_, episodeIndex) => (
+                      <div key={episodeIndex} className="episode-item">
+                        Episode {episodeIndex + 1}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
