@@ -1,0 +1,50 @@
+// src/components/PodcastModal.jsx
+import React from 'react';
+import { formatDate } from '../utils/utils';
+
+const PodcastModal = ({ podcast, onClose, onViewMore }) => {
+  if (!podcast) return null;
+
+  return (
+    <div className={`modal ${podcast ? 'show' : ''}`}>
+      <div className="modal-content">
+        <div className="modalContent-header">
+          <h2 id="modalTitle">{podcast.title}</h2>
+          <span className="close-button" onClick={onClose}>&times;</span>
+        </div>
+
+        <hr className="line-diveder" />
+
+        <div className="modalContent-info">
+          <img id="modalImage" src={podcast.image} alt={podcast.title} />
+
+          <div className="modalContent-details">
+            <div id="modalGenres" className="genres">
+              {podcast.genres && podcast.genres.length > 0 
+                ? podcast.genres.join(", ") 
+                : "No genres available"}
+            </div>
+
+            <p id="modalLastUpdated">
+              Last updated: <span>{formatDate(podcast.updated)}</span>
+            </p>
+
+            <div id="modalSeasons" className="seasons">
+              {podcast.seasons && podcast.seasons.length > 0 
+                ? `${podcast.seasons.length} season(s)` 
+                : "No seasons available"}
+            </div>
+
+            <p id="modalDescription">{podcast.description}</p>
+
+            <button id="viewMoreBtn" className="view-more-btn" onClick={onViewMore}>
+              View More
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PodcastModal;

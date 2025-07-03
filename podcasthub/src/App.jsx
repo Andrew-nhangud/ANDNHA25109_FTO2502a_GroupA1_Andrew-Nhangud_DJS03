@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React, { useState } from 'react';
+import Header from './components/Header';
+import HeroSection from './components/HeroSection';
+import Filter from './components/Filter';
+import PodcastCard from './components/PodcastCard';
+import PodcastModal from './components/PodcastModal';
+import FullScreenModal from './components/FullScreenModal';
+import { podcasts } from './data/data'; // Import the podcasts data
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [selectedPodcast, setSelectedPodcast] = useState(null);
+  const [isFullScreenModalOpen, setIsFullScreenModalOpen] = useState(false);
+
+  const handleSelectPodcast = (podcast) => {
+    setSelectedPodcast(podcast);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPodcast(null);
+  };
+
+  const handleOpenFullScreenModal = () => {
+    setIsFullScreenModalOpen(true);
+  };
+
+  const handleCloseFullScreenModal = () => {
+    setIsFullScreenModalOpen(false);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      <Header />
+      <HeroSection />
+      <Filter />
+      <section className="podcast-card container">
+        {podcasts.map((podcast) => (
+          <PodcastCard key={podcast.id} podcast={podcast} onSelect={handleSelectPodcast} />
+        ))}
+      </section>
+      <PodcastModal 
+        podcast={selectedPodcast} 
+        onClose={handleCloseModal} 
+        onViewMore={handleOpenFullScreenModal} 
+      />
+      <FullScreenModal 
+        podcast={selectedPodcast} 
+        isOpen={isFullScreenModalOpen} 
+        onClose={handleCloseFullScreenModal} 
+      />
+    </div>
+  );
+};
 
-export default App
+export default App;
