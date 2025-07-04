@@ -1,75 +1,88 @@
+// src/components/FullScreenModal.jsx
 import React, { useState } from 'react';
 import { formatDate, getGenreTitles } from '../utils/utils';
-import { seasons } from '../data/data'; // Import the seasons data
 
 const FullScreenModal = ({ podcast, isOpen, onClose }) => {
-  const [selectedSeasonIndex, setSelectedSeasonIndex] = useState(null);
+  const [expandedSeason, setExpandedSeason] = useState(null);
 
   if (!isOpen || !podcast) return null;
 
-  // Find the seasons for the current podcast
-  const podcastSeasons = seasons.find(season => season.id === podcast.id)?.seasonDetails || [];
+  const seasonsArray = Array.from({ length: podcast.seasons }, (_, i) => ({
+    id: i + 1,
+    title: `Season ${i + 1}`,
+    episodes: 0 // Placeholder count
+  }));
 
-  const handleSeasonClick = (index) => {
-    // Toggle the selected season index
-    setSelectedSeasonIndex(selectedSeasonIndex === index ? null : index);
+  const toggleSeason = (seasonId) => {
+    setExpandedSeason(expandedSeason === seasonId ? null : seasonId);
   };
 
   return (
     <div className={`full-screen-modal ${isOpen ? 'show' : ''}`}>
       <div className="full-screen-modal-content">
         <div className="full-screen-modal-header">
-          <button id="backToPodcastBtn" className="back-btn" onClick={onClose}>
+          <button className="back-btn" onClick={onClose}>
             &lt; Back to Podcast
           </button>
         </div>
 
         <div className="podcast-info-section">
           <img
-            id="fullScreenModalImage"
+            className="full-screen-modal-image"
             src={podcast.image}
-            alt="Podcast Image"
+            alt={`Cover art for ${podcast.title}`}
           />
           <div className="podcast-info-text">
-            <h2 id="fullScreenModalTitle">{podcast.title}</h2>
-            <div id="fullScreenModalGenres" className="genres">
-              {podcast.genres && podcast.genres.length > 0 
+            <h2>{podcast.title}</h2>
+            <div className="genres">
+              {podcast.genres?.length > 0 
                 ? getGenreTitles(podcast.genres).join(", ") 
                 : "No genres available"}
             </div>
-            <p id="fullScreenModalLastUpdated">
+            <p className="last-updated">
               Last updated: <span>{formatDate(podcast.updated)}</span>
             </p>
-            <div id="fullScreenModalSeasons" className="seasons">
+            <div className="seasons-count">
               {podcast.seasons > 0 
-                ? `${podcast.seasons} season` 
+                ? `${podcast.seasons} season${podcast.seasons !== 1 ? 's' : ''}` 
                 : "No seasons available"}
             </div>
-            <p id="fullScreenModalDescription">{podcast.description}</p>
+            <p className="description">{podcast.description}</p>
           </div>
         </div>
 
         <div className="seasons-episodes-section">
           <h3>Seasons and Episodes</h3>
-          <div id="seasonsContainer" className="seasons-list">
-            {podcastSeasons.map((season, index) => (
-              <div key={index} className="season-item">
-                <div className="season-header" onClick={() => handleSeasonClick(index)}>
-                  <span className="season-title">{season.title}</span>
-                  <span className="season-header-episodes">{season.episodes} Episodes</span>
-                </div>
-                {selectedSeasonIndex === index && (
-                  <div className="season-episodes">
-                    {Array.from({ length: season.episodes }, (_, episodeIndex) => (
-                      <div key={episodeIndex} className="episode-item">
-                        Episode {episodeIndex + 1}
-                      </div>
-                    ))}
+          
+          {podcast.seasons > 0 ? (
+            <div className="seasons-list">
+              {seasonsArray.map((season) => (
+                <div key={season.id} className="season-item">
+                  <div 
+                    className="season-header" 
+                    onClick={() => toggleSeason(season.id)}
+                  >
+                    <span className="season-title">{season.title}</span>
+                    <span className="episodes-count">
+                      {season.episodes} episode{season.episodes !== 1 ? 's' : ''}
+                    </span>
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
+                  
+                  {expandedSeason === season.id && (
+                    <div className="season-episodes">
+                      <div className="episode-placeholder">
+                        Episode information coming soon! Check back later for updates.
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="no-seasons">
+              This podcast currently has no seasons available
+            </div>
+          )}
         </div>
       </div>
     </div>
