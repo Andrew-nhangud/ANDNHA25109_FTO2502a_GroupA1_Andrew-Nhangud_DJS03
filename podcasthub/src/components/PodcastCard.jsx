@@ -1,6 +1,6 @@
-// src/components/PodcastCard.jsx
 import React from 'react';
-import { getGenreTitles, formatDate } from '../utils/utils';
+import PropTypes from 'prop-types';
+import { formatDate, getGenreTitles } from '../utils/utils'; // Ensure these utility functions are available
 
 const PodcastCard = ({ podcast, onSelect }) => {
   return (
@@ -18,6 +18,19 @@ const PodcastCard = ({ podcast, onSelect }) => {
       </div>
     </div>
   );
+};
+
+// PropTypes for type checking
+PodcastCard.propTypes = {
+  podcast: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    genres: PropTypes.array.isRequired, // Assuming genres is an array
+    seasons: PropTypes.number.isRequired,
+    updated: PropTypes.string.isRequired, // Assuming updated is a string (date)
+  }).isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default PodcastCard;

@@ -1,16 +1,32 @@
 // src/App.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import Filter from './components/Filter';
 import PodcastCard from './components/PodcastCard';
 import PodcastModal from './components/PodcastModal';
 import FullScreenModal from './components/FullScreenModal';
-import { podcasts } from './data/data'; // Import the podcasts data
 
 const App = () => {
+  const [podcasts, setPodcasts] = useState([]);
   const [selectedPodcast, setSelectedPodcast] = useState(null);
   const [isFullScreenModalOpen, setIsFullScreenModalOpen] = useState(false);
+
+  // Function to fetch podcast data from the API
+  const fetchPodcasts = async () => {
+    try {
+      const response = await axios.get('https://podcast-api.netlify.app/');
+      setPodcasts(response.data); // Set the fetched data to state
+    } catch (error) {
+      console.error("Error fetching podcasts:", error);
+    }
+  };
+
+  // Fetch podcasts when the component mounts
+  useEffect(() => {
+    fetchPodcasts();
+  }, []);
 
   const handleSelectPodcast = (podcast) => {
     setSelectedPodcast(podcast);
