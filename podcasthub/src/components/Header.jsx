@@ -1,4 +1,12 @@
-// Example in Header.jsx
+/**
+ * Header component for the application.
+ * 
+ * This component displays the application title and icons for navigation.
+ * It includes a logo and a profile picture icon.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered Header component.
+ */
 import React from 'react';
 import headphonesIcon from '../assets/images/headphones-icon.png';
 import profilePictureIcon from '../assets/images/profile-picture-icon.png';

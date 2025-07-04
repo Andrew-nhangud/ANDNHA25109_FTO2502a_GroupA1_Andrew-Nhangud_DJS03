@@ -1,4 +1,15 @@
-// src/components/PodcastModal.jsx
+/**
+ * PodcastModal component for displaying detailed information about a selected podcast.
+ * 
+ * This modal shows the podcast's image, title, genres, last updated date, 
+ * number of seasons, description, and a button to view more details.
+ * 
+ * @component
+ * @param {Object} podcast - The podcast data to display.
+ * @param {function} onClose - Function to close the modal.
+ * @param {function} onViewMore - Function to handle viewing more details.
+ * @returns {JSX.Element|null} The rendered PodcastModal component or null if no podcast is selected.
+ */
 import React from 'react';
 import { formatDate, getGenreTitles } from '../utils/utils';
 

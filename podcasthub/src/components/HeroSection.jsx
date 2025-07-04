@@ -1,4 +1,12 @@
-// src/components/HeroSection.jsx
+/**
+ * HeroSection component for the landing page.
+ * 
+ * This component displays a title and a brief description to welcome users
+ * and encourage them to explore the podcast collection.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered HeroSection component.
+ */
 import React from 'react';
 
 const HeroSection = () => {

@@ -1,4 +1,14 @@
-// src/App.jsx
+/**
+ * Main application component.
+ * 
+ * This component fetches podcast data from an API and manages the state for
+ * the list of podcasts, selected podcast, loading state, and error handling.
+ * It renders the header, hero section, filter, and podcast cards, as well as
+ * modals for detailed podcast information.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered App component.
+ */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from './components/Header';

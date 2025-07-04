@@ -1,4 +1,16 @@
-// src/components/FullScreenModal.jsx
+/**
+ * FullScreenModal component for displaying detailed information about a podcast.
+ * 
+ * This modal shows the podcast's image, title, genres, last updated date, 
+ * seasons, and episodes. It allows users to expand and collapse seasons to 
+ * view episode information.
+ * 
+ * @component
+ * @param {Object} podcast - The podcast data to display.
+ * @param {boolean} isOpen - Indicates if the modal is open.
+ * @param {function} onClose - Function to close the modal.
+ * @returns {JSX.Element|null} The rendered FullScreenModal component or null if not open.
+ */
 import React, { useState } from 'react';
 import { formatDate, getGenreTitles } from '../utils/utils';
 
